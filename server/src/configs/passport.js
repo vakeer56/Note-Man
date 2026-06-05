@@ -32,7 +32,7 @@ passport.serializeUser( (user, done) => {
 passport.deserializeUser( async (id, done) => {
     try {
         
-        const user = await authService.findById(id);
+        const user = await authService.getUserById(id);
         done(null, user);
     }
     catch(err) {
