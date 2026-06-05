@@ -2,17 +2,23 @@ import express from 'express';
 import cors from 'cors';
 import passport from 'passport';
 import  session  from 'express-session';
+import mongoose from 'mongoose';
 
 const app = express();
 import 'dotenv/config';
 
 
 import authRoute from './src/routes/auth.route.js';
+import './src/configs/passport.js';
 
 app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
+
+mongoose.connect(process.env.MONGODB_URI)
+    .then( () => console.log("connected to DB....") )
+    .catch(err => console.log(err))
 
 app.use(
     session({
@@ -36,6 +42,10 @@ app.get("/api/profile", (req, res) => {
 
 app.get('/', (req, res) => {
     res.send("Test API is working...")
+})
+
+app.get('/dashboard', (req, res) => {
+  res.send("welcome user")
 })
 
 app.listen(PORT, () => {

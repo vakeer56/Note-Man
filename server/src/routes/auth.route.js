@@ -12,7 +12,7 @@ router.get(
     "/google/callback",
     passport.authenticate("google", {failureRedirect: "/"}),
     (req, res) => {
-        res.redirect("/dashboard");
+        res.redirect("/api/profile");
     }
 );
 
@@ -23,8 +23,9 @@ router.get(
             if (err) {
                 return res.status(500).json( {error: err} );
             }
+            res.redirect("/")
         } );
     }
 );
 
-export default router;1
+export default router;
