@@ -44,10 +44,6 @@ app.get('/', (req, res) => {
     res.send("Test API is working...")
 })
 
-app.get('/dashboard', (req, res) => {
-  res.send("welcome user")
-})
-
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}...`);
 })

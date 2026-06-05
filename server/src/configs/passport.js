@@ -1,6 +1,6 @@
 import passport from 'passport';
 import {Strategy as GoogleStrategy} from 'passport-google-oauth20';
-import User from '../models/user.model.js';
+import authService from '../services/auth.service.js';
 
 
 passport.use (
@@ -13,19 +13,7 @@ passport.use (
     async (accessToken, refreshToken, profile, done) => {
         
         try {
-            let user = await User.findOne( {googleId: profile.id} );
-            
-            if (user) {
-                return done(null, user);
-            }
-
-            user = await User.create( {
-                googleId: profile.id,
-                email: profile.emails[0].value,
-                firstName: profile.name.given_name || profile.displayName,
-                lastName: profile.name.family_name || "",
-                provider: "google"
-            } );
+            let user = await authService.loginWithGoogle(profile);
             
             return done(null, user);
         }
@@ -44,7 +32,7 @@ passport.serializeUser( (user, done) => {
 passport.deserializeUser( async (id, done) => {
     try {
         
-        const user = await User.findById(id);
+        const user = await authService.findById(id);
         done(null, user);
     }
     catch(err) {
