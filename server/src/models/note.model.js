@@ -14,7 +14,7 @@ const noteSchema = new mongoose.Schema( {
         type: String,
         required: true,
     },
-    tag: {
+    tags: {
         type: [String],
         default: []
     },
@@ -39,4 +39,8 @@ const noteSchema = new mongoose.Schema( {
         type: Date,
         default: Date.now
     }
-} )
+} );
+
+
+const Note = model("Note", "noteSchema");
+export default Note;
