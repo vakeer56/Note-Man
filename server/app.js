@@ -44,6 +44,13 @@ app.get('/', (req, res) => {
     res.send("Test API is working...")
 })
 
+app.get('/coffee', (req, res) => {
+    res.status(418).json( {
+        message: "We cannot brew coffee because we are a teapot",
+        statusCode: 418,
+    })
+})
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}...`);
 })

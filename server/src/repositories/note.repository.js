@@ -8,19 +8,21 @@ class NoteRepository {
         return note;
     }
 
-    async getAllNote( userId) {
+    async getAllNotes( userId) {
         
-        const notes = await Note.find( userId );
+        const notes = await Note.find( { userId } );
         return notes;
     }
     
-    async getNotebyId (noteId) {
+    async getNoteById (noteId) {
         const note = await Note.findById(noteId);
         return note;
     }
 
-    async getNotesByTag (tag) {
-        const notes = await Note.find( {tags: { $in: [tag]}});
+    async getNotesByTag (userId, tag) {
+        const notes = await Note.find( {
+            userId,
+            tags: { $in: [tag]}});
         return notes;
     }
 
@@ -40,4 +42,19 @@ class NoteRepository {
         const updatedNote = await Note.findByIdAndUpdate(noteId, noteData, {new: true});
         return updatedNote;
     }
+
+    async searchNotes (userId, query) {
+
+        const notes = await Note.find( {
+            userId,
+            $or: [
+                {title: {$regex: query, $options: "i"}},
+                {content: {$regex: query, $options: "i"}}
+            ]
+        });
+
+        return notes;
+    }
 }
+
+export default NoteRepository;
