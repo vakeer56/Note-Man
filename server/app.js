@@ -8,17 +8,22 @@ const app = express();
 import 'dotenv/config';
 
 
-import authRoute from './src/routes/auth.route.js';
 import './src/configs/passport.js';
+
+// -------------------------------------------- IMPORT ROUTES   -----------------------------------------
+import authRoute from './src/routes/auth.route.js';
+import noteRoute from './src/routes/note.route.js';
 
 app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect(process.env.MONGODB_URI)
-    .then( () => console.log("connected to DB....") )
-    .catch(err => console.log(err))
+if (process.env.NODE_ENV !== 'test') {
+    mongoose.connect(process.env.MONGODB_URI)
+        .then( () => console.log("connected to DB....") )
+        .catch(err => console.log(err))
+}
 
 app.use(
     session({
@@ -31,8 +36,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/auth", authRoute);
 
+
+// ---------------------------------------------   USE ROUTES   ---------------------------------------------
+app.use("/auth", authRoute);
+app.use('/notes', noteRoute);
+        
 app.get("/api/profile", (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ error: "Not authenticated" });
@@ -51,6 +60,10 @@ app.get('/coffee', (req, res) => {
     })
 })
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}...`);
-})
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}...`);
+    })
+}
+
+export default app;

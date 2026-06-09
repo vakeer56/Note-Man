@@ -12,7 +12,7 @@ class NoteService {
             throw new Error("Note data is required");
         }
 
-        if( !noteData.title || noteData.title.trim() === "" ||  !noteData.userId || !noteData.content || noteData.content.trim() === "") {
+        if( !noteData.title || noteData.title.trim() === "" ||  !noteData.user || !noteData.content || noteData.content.trim() === "") {
             throw new Error("Required fields are missing");
         }
 
@@ -21,13 +21,13 @@ class NoteService {
         return note;
     }
 
-    async getAllNotes(userId) {
+    async getAllNotes(user) {
 
-        if( !userId) {
+        if( !user) {
             throw new Error("User ID is required");
         }
 
-        const notes = await this.noteRepository.getAllNotes(userId);
+        const notes = await this.noteRepository.getAllNotes(user);
         return notes;
     }
 
@@ -41,9 +41,9 @@ class NoteService {
         return note;
     }
 
-    async getNotesByTag(userId,  tag ) {
+    async getNotesByTag(user,  tag ) {
 
-        if( !userId) {
+        if( !user) {
             throw new Error("user ID is required");
         }
 
@@ -51,17 +51,17 @@ class NoteService {
             throw new Error("Tag is required");
         }
 
-        const notes = await this.noteRepository.getNotesByTag(userId,tag);
+        const notes = await this.noteRepository.getNotesByTag(user,tag);
         return notes;
     }
 
-    async getArchivedNotes ( userId ) {
+    async getArchivedNotes ( user ) {
 
-        if( !userId) {
+        if( !user) {
             throw new Error("User ID is required");
         }
 
-        const notes = await this.noteRepository.getArchivedNotes(userId);
+        const notes = await this.noteRepository.getArchivedNotes(user);
         return notes;
         
     }
@@ -90,9 +90,9 @@ class NoteService {
         return await this.noteRepository.updateNote(noteId, noteData);
     }
 
-    async searchNotes (userId, query) {
+    async searchNotes (user, query) {
 
-        if( !userId) {
+        if( !user) {
             throw new Error("User ID is required");
         }
 
@@ -100,7 +100,7 @@ class NoteService {
             throw new Error("Query is required");
         }
 
-        const notes = await this.noteRepository.searchNotes(userId, query);
+        const notes = await this.noteRepository.searchNotes(user, query);
         return notes;
     }
 

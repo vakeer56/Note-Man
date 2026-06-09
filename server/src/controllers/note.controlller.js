@@ -1,4 +1,4 @@
-import noteService from "../services/note.service";
+import noteService from "../services/note.service.js";
 
 
 export const createNote = async (req, res) => {
@@ -42,7 +42,10 @@ export const getAllNotes = async (req, res) => {
 export const getNoteById = async (req, res) => {
 
     try {
-        const note = await noteService.getNoteById(req.user._id);
+        const note = await noteService.getNoteById(
+            req.user._id,
+            req.params.noteId
+        );
 
         return res.status(200).json( {
             success: true,
@@ -88,7 +91,7 @@ export const getArchivedNotes = async (req, res) => {
         return res.status(200).json({
             success: true,
             data: notes,
-            message: "fetched notes successfully"
+            message: "fetched archived notes successfully"
         })
     } catch( err ) {
         return res.status(400).json({
@@ -144,7 +147,7 @@ export const searchNotes = async (req, res) => {
     try {
 
         const notes = await noteService.searchNotes(
-            req.user._id, 
+            "6a2777be6319a8c0f685c55c", 
             req.query.q
         );
 

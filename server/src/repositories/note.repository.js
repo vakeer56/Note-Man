@@ -8,9 +8,9 @@ class NoteRepository {
         return note;
     }
 
-    async getAllNotes( userId) {
+    async getAllNotes( user) {
         
-        const notes = await Note.find( { userId } );
+        const notes = await Note.find( { user } );
         return notes;
     }
     
@@ -19,15 +19,15 @@ class NoteRepository {
         return note;
     }
 
-    async getNotesByTag (userId, tag) {
+    async getNotesByTag (user, tag) {
         const notes = await Note.find( {
-            userId,
+            user,
             tags: { $in: [tag]}});
         return notes;
     }
 
-    async getArchivedNotes (userId) {
-        const archivedNotes = await Note.find( { userId, archived: true});
+    async getArchivedNotes (user) {
+        const archivedNotes = await Note.find( { user, isarchived: true});
         return archivedNotes;
     }
     
@@ -43,10 +43,10 @@ class NoteRepository {
         return updatedNote;
     }
 
-    async searchNotes (userId, query) {
+    async searchNotes (user, query) {
 
         const notes = await Note.find( {
-            userId,
+            user,
             $or: [
                 {title: {$regex: query, $options: "i"}},
                 {content: {$regex: query, $options: "i"}}
