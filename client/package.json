@@ -10,8 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mantine/core": "^9.3.1",
+    "@mantine/form": "^9.3.1",
+    "@mantine/hooks": "^9.3.1",
+    "axios": "^1.17.0",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "react-router-dom": "^7.17.0",
+    "shadcn": "^4.11.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
