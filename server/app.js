@@ -14,7 +14,10 @@ import './src/configs/passport.js';
 import authRoute from './src/routes/auth.route.js';
 import noteRoute from './src/routes/note.route.js';
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+}));
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;

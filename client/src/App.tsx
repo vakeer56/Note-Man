@@ -1,17 +1,23 @@
-import './App.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
+import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 
-import {Dashboard} from './pages/dashboard';
 import Login from './pages/login';
+import Dashboard from './pages/dashboard';
 
 export default function App() {
-  return <>
-    <BrowserRouter>
-
+  return (
+    <MantineProvider>
+      <Notifications />
+      <BrowserRouter>
         <Routes>
-            <Route path='/' element={ <Dashboard /> } />
-            <Route path='/login' element={ <Login /> } />
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-    </BrowserRouter>
-  </>
+      </BrowserRouter>
+    </MantineProvider>
+  );
 }

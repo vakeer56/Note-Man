@@ -5,7 +5,7 @@ export const createNote = async (req, res) => {
 
     try {
 
-        const note = await noteService.createNote(req.body);
+        const note = await noteService.createNote({ ...req.body, user: req.user._id });
 
         return res.status(201).json( {
             success: true,
@@ -147,7 +147,7 @@ export const searchNotes = async (req, res) => {
     try {
 
         const notes = await noteService.searchNotes(
-            "6a2777be6319a8c0f685c55c", 
+            req.user._id,
             req.query.q
         );
 

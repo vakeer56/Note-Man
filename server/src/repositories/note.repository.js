@@ -9,8 +9,8 @@ class NoteRepository {
     }
 
     async getAllNotes( user) {
-        
-        const notes = await Note.find( { user } );
+        const notes = await Note.find({ user, isArchived: false })
+            .sort({ isPinned: -1, modifiedAt: -1 });
         return notes;
     }
     
@@ -20,14 +20,16 @@ class NoteRepository {
     }
 
     async getNotesByTag (user, tag) {
-        const notes = await Note.find( {
+        const notes = await Note.find({
             user,
-            tags: { $in: [tag]}});
+            isArchived: false,
+            tags: { $in: [tag] },
+        }).sort({ isPinned: -1, modifiedAt: -1 });
         return notes;
     }
 
     async getArchivedNotes (user) {
-        const archivedNotes = await Note.find( { user, isarchived: true});
+        const archivedNotes = await Note.find( { user, isArchived: true});
         return archivedNotes;
     }
     
@@ -44,15 +46,14 @@ class NoteRepository {
     }
 
     async searchNotes (user, query) {
-
-        const notes = await Note.find( {
+        const notes = await Note.find({
             user,
+            isArchived: false,
             $or: [
-                {title: {$regex: query, $options: "i"}},
-                {content: {$regex: query, $options: "i"}}
-            ]
-        });
-
+                { title: { $regex: query, $options: 'i' } },
+                { content: { $regex: query, $options: 'i' } },
+            ],
+        }).sort({ isPinned: -1, modifiedAt: -1 });
         return notes;
     }
 }
